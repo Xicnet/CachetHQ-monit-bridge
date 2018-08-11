@@ -305,17 +305,10 @@ check process apache with pidfile /usr/local/apache/logs/httpd.pid
 #  include /etc/monit.d/*
 #
 
- check process postgresql with pidfile /opt/postgres/data/postmaster.pid
-    group database
-    start program = "/etc/init.d/postgresql start"
-    stop  program = "/etc/init.d/postgresql stop15515 failed host localhost port 543 protocol pgsql then restar15
- 15 failed host localhost port 543 protocol pgsql then aler1ón con el contexto del todo.
- if 5 restarts within 5 cycles then timeout
-
 #python /home/market/OCB/odoo.py
 check process odoo
         matching "odoo.py"
-        if cpu usage >80% for 4 cycles then exec "/home/market/monit/report-incident.py Odoo 2"
+        if cpu usage > 80% for 4 cycles then exec "/home/market/monit/report-incident.py Odoo 2"
         else if succeeded for 4 cycle then exec "/home/market/monit/report-incident.py Odoo 1"
         if memory usage > 2048 MB for 4 cycles then exec "/home/market/monit/report-incident.py Odoo 2"
         else if succeeded for 4 cycle then exec "/home/market/monit/report-incident.py Odoo 1"
