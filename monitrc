@@ -308,10 +308,10 @@ check process apache with pidfile /usr/local/apache/logs/httpd.pid
 #python /home/market/OCB/odoo.py
 check process odoo
         matching "odoo.py"
-        if cpu usage > 80% for 4 cycles then exec "/home/market/monit/report-incident.py Odoo 2"
-        else if succeeded for 4 cycle then exec "/home/market/monit/report-incident.py Odoo 1"
-        if memory usage > 2048 MB for 4 cycles then exec "/home/market/monit/report-incident.py Odoo 2"
-        else if succeeded for 4 cycle then exec "/home/market/monit/report-incident.py Odoo 1"
+        if cpu usage > 80% for 4 cycles then exec "report-incident.py Odoo 2"
+        else if succeeded for 4 cycle then exec "report-incident.py Odoo 1"
+        if memory usage > 2048 MB for 4 cycles then exec "report-incident.py Odoo 2"
+        else if succeeded for 4 cycle then exec "report-incident.py Odoo 1"
 
 check process nginx with pidfile /run/nginx.pid
     start program = "/etc/init.d/service nginx start" with timeout 60 seconds
