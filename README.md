@@ -8,7 +8,5 @@ Its set of python scripts built while Summer Work Camp.
 virtualenv venv
 . venv/bin/activate
 pip install -r requirements.txt
-
-# Usage
-
+chmod 0700 monitrc
 python get-cachet-components.py && ./monit -c monitrc -I -l /dev/stdout
