@@ -3,7 +3,7 @@ import requests
 import sys
 
 service          = sys.argv[1]
-component_status = sys.argv[2]
+component_status = int(sys.argv[2])
 
 with open('components') as f:
    for line in f:
@@ -11,12 +11,25 @@ with open('components') as f:
        if name == service:
            component_id = _id.strip()
 
-print("service: ", service)
 url = "https://status.fair.coop/api/v1/incidents"
 
+if component_status == 1:
+    status = "up"
+if component_status == 2:
+    status = "issue"
+
+name = "%s %s" % (service, status)
+message = "%s %s" % (service, status)
+
 headers = {'X-Cachet-Token': '5cEgd3u4drfag2HUd8sG', 'content-type': 'application/json'}
-payload = "{\"name\":\"Odoodown\",\"message\":\"odoooverload\",\"visible\":1,\"status\":1,\"component_id\":%s,\"component_status\":%s,\"notify\":\"true\",\"created_at\":\"\"}" % (component_id, component_status)
+payload = "{\"name\":\"%s\",\"message\":\"%s\",\"visible\":1,\"status\":1,\"component_id\":%s,\"component_status\":%s,\"notify\":\"true\",\"created_at\":\"\"}" % (name, message, component_id, component_status)
 response = requests.request("POST", url, headers=headers, data=payload)
+
+print("incident ID: ", response.text)
+#import ipdb;ipdb.set_trace()
+print "payload: ", payload
+print "response: ", response
+print
 
 incident_id = response.json()['data']['id']
 

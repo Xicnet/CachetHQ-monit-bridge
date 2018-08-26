@@ -312,9 +312,32 @@ check process odoo
         else if succeeded for 4 cycle then exec "report-incident.py Odoo 1"
         if memory usage > 2048 MB for 4 cycles then exec "report-incident.py Odoo 2"
         else if succeeded for 4 cycle then exec "report-incident.py Odoo 1"
+        #if failed port 443 protocol http request "/non-existent" status = 404 then alert
+        #if failed port 443 protocol https request "/nonexistent" status = 404 then alert
+
+check host localhost with address market.fair.coop
+    if failed
+        port 443
+        protocol https
+        request "/nonexistent"
+        status = 404
+    then alert
+
 
 check process nginx with pidfile /run/nginx.pid
     #start program = "/etc/init.d/service nginx start" with timeout 60 seconds
     #stop program  = "/etc/init.d/service nginx stop"
     #if failed host 127.0.0.1 port 80 protocol http for 3 cycles then restart
     if failed host 127.0.0.1 port 80 protocol http for 3 cycles then alert
+
+#check process postgresql with pidfile /opt/postgres/data/postmaster.pid
+#   group database
+#   start program = "/etc/init.d/postgresql start"
+#   stop  program = "/etc/init.d/postgresql stop"
+#if failed unixsocket /tmp/.s.PGSQL.5432 protocol pgsql then restart
+#if failed unixsocket /tmp/.s.PGSQL.5432 protocol pgsql then alert
+#if failed host localhost port 5432 protocol pgsql then restart
+#if failed host localhost port 5432 protocol pgsql then alert
+#if 5 restarts within 5 cycles then timeout
+
+
